@@ -21,15 +21,16 @@ $ pip uninstall genpac
 ### 使用方法
 
 ```
-genpac [-v] [-h] [--init [PATH]] [--format {pac,dnsmasq,wingy}]
-       [--gfwlist-url URL] [--gfwlist-proxy PROXY]
-       [--gfwlist-local FILE] [--gfwlist-update-local]
-       [--gfwlist-disabled] [--gfwlist-decoded-save FILE]
-       [--user-rule RULE] [--user-rule-from FILE]
-       [--template FILE] [-o FILE] [-c FILE]
-       [--pac-proxy PROXY] [--pac-precise] [--pac-compress]
-       [--dnsmasq-dns DNS] [--dnsmasq-ipset IPSET]
-       [--wingy-adapter-opts OPTS] [--wingy-rule-adapter-id ID]
+genpac [-v] [-h] [--init [PATH]]
+	   [--format {ss-acl,pac,wingy,dnsmasq,potatso}]
+	   [--gfwlist-url URL] [--gfwlist-proxy PROXY]
+	   [--gfwlist-local FILE] [--gfwlist-update-local]
+	   [--gfwlist-disabled] [--gfwlist-decoded-save FILE]
+	   [--user-rule RULE] [--user-rule-from FILE] [-o FILE] [-c FILE]
+	   [--template FILE] [--pac-proxy PROXY] [--pac-direct PROXY]
+	   [--pac-precise] [--pac-compress] [-p PROXY] [-d PROXY] [-P] [-z]
+	   [--wingy-adapter-opts OPTS] [--wingy-rule-adapter-id ID]
+	   [--dnsmasq-dns DNS] [--dnsmasq-ipset IPSET]
 
 获取gfwlist生成多种格式的翻墙工具配置文件, 支持自定义规则
 
@@ -68,10 +69,13 @@ PAC:
   通过代理自动配置文件（PAC）系统或浏览器可自动选择合适的代理服务器
 
   --pac-proxy PROXY     代理地址, 如 SOCKS5 127.0.0.1:8080; SOCKS 127.0.0.1:8080
+  --pac-direct PROXY    直连地址, 默认为 DIRECT
   --pac-precise         精确匹配模式
   --pac-compress        压缩输出
   -p PROXY, --proxy PROXY
                         已弃用参数, 等同于--pac-proxy, 后续版本将删除, 避免使用
+  -d PROXY, --direct PROXY
+                        已弃用参数, 等同于--pac-direct, 后续版本将删除, 避免使用
   -P, --precise         已弃用参数, 等同于--pac-precise, 后续版本将删除, 避免使用
   -z, --compress        已弃用参数, 等同于--pac-compress, 后续版本将删除, 避免使用
 
@@ -152,6 +156,9 @@ genpac --format=pac --pac-proxy="SOCKS5 127.0.0.1:1080" --pac-compress
 
 # PAC格式 精确匹配模式
 genpac --format=pac --pac-proxy="SOCKS5 127.0.0.1:1080" --pac-precise
+
+# PAC格式 指定--pac-direct(白名单模式)
+genpac --format=pac --pac-proxy="DIRECT" --pac-direct="SOCKS5 127.0.0.1:1080"
 
 # PAC格式 自定义规则
 genpac --format=pac --pac-proxy="SOCKS5 127.0.0.1:1080" "SOCKS5 127.0.0.1:1080" --user-rule="||example.com" --user-rule-from=~/user-rule.txt
