@@ -120,6 +120,9 @@ class FmtPAC(FmtBase):
             '--pac-proxy', metavar='PROXY',
             help='代理地址, 如 SOCKS5 127.0.0.1:8080; SOCKS 127.0.0.1:8080')
         group.add_argument(
+            '--pac-direct', metavar='PROXY',
+            help='直连地址, 默认为 DIRECT')
+        group.add_argument(
             '--pac-precise', action='store_true',
             help='精确匹配模式')
         group.add_argument(
@@ -130,6 +133,9 @@ class FmtPAC(FmtBase):
         group.add_argument(
             '-p', '--proxy', dest='pac_proxy', metavar='PROXY',
             help='已弃用参数, 等同于--pac-proxy, 后续版本将删除, 避免使用')
+        group.add_argument(
+            '-d', '--direct', dest='pac_direct', metavar='PROXY',
+            help='已弃用参数, 等同于--pac-direct, 后续版本将删除, 避免使用')
         group.add_argument(
             '-P', '--precise', action='store_true',
             dest='pac_precise',
@@ -142,6 +148,7 @@ class FmtPAC(FmtBase):
     @classmethod
     def config(cls, options):
         options['pac-proxy'] = {'replaced': 'proxy'}
+        options['pac-direct'] = {'replaced': 'direct'}
         options['pac-compress'] = {'conv': conv_bool, 'replaced': 'compress'}
         options['pac-precise'] = {'conv': conv_bool, 'replaced': 'precise'}
 
@@ -149,6 +156,8 @@ class FmtPAC(FmtBase):
         if not self.options.pac_proxy:
             self.error('代理信息不存在，检查参数--pac-proxy或配置pac-proxy')
             return False
+        if not self.options.pac_direct:
+            self.options.pac_direct = 'DIRECT'
         return super(FmtPAC, self).pre_generate()
 
     def generate(self, replacements):
@@ -157,6 +166,7 @@ class FmtPAC(FmtBase):
             indent=None if self.options.pac_compress else 4,
             separators=(',', ':') if self.options.pac_compress else None)
         replacements.update({'__PROXY__': self.options.pac_proxy,
+                             '__DIRECT__': self.options.pac_direct,
                              '__RULES__': rules})
         return self.replace(self.tpl, replacements)
 

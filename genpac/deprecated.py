@@ -12,6 +12,8 @@ _warnings_showwarning = None
 _deprecated_args = {
     '-p': ('--pac-proxy', '2.0'),
     '--proxy': ('--pac-proxy', '2.0'),
+    '-d': ('--pac-direct', '2.0'),
+    '--direct': ('--pac-direct', '2.0'),
     '-z': ('--pac-compress', '2.0'),
     '--compress': ('--pac-compress', '2.0'),
     '-P': ('--pac-precise', '2.0'),
@@ -20,6 +22,7 @@ _deprecated_args = {
 
 _deprecated_config = {
     'proxy': ('pac-proxy', '2.0'),
+    'direct': ('pac-direct', '2.0'),
     'compress': ('pac-compress', '2.0'),
     'precise': ('pac-precise', '2.0')
 }

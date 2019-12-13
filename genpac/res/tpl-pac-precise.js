@@ -6,6 +6,7 @@
  */
 
 var proxy = '__PROXY__';
+var direct = '__DIRECT__';
 var rules = __RULES__;
 
 var lastRule = '';
@@ -16,7 +17,7 @@ function FindProxyForURL(url, host) {
         if (ret !== undefined)
             return ret;
     }
-    return 'DIRECT';
+    return direct;
 }
 
 function testURL(url, index) {
@@ -25,7 +26,7 @@ function testURL(url, index) {
             lastRule = rules[index][i][j];
             if ( (i % 2 == 0 && regExpMatch(url, lastRule))
                 || (i % 2 != 0 && shExpMatch(url, lastRule)))
-                return (i <= 1) ? 'DIRECT' : proxy;
+                return (i <= 1) ? direct : proxy;
         }
     }
     lastRule = '';
